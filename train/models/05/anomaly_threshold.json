@@ -1,7 +1,0 @@
-{
-  "threshold": 0.4939858317375183,
-  "method": "mean + 3*std of training reconstruction error",
-  "train_mean_error": 0.20010022819042206,
-  "train_std_error": 0.09796187281608582,
-  "num_sensors": 10
-}

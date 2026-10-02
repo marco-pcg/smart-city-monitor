@@ -1,9 +1,4 @@
-"""
-Gradio demo for the Smart City Monitor.
-Each model gets its own tab.
-
-Run: python app.py
-"""
+import spaces
 import json
 import gradio as gr
 
@@ -15,7 +10,7 @@ from inference import (
     autoencoder_leaks,
 )
 
-# ---------- Module 01: CNN ----------
+@spaces.GPU(duration=15)
 def cnn_fn(image):
     if image is None:
         return {"error": "No image provided"}

@@ -7,8 +7,22 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-MODEL_DIR = Path("models")
+MODEL_DIR = Path("train/models")
 
+from huggingface_hub import hf_hub_download
+
+model_path = hf_hub_download(
+    repo_id="marco-pcg/Neural-Network-Types-models",
+    filename="energy_lstm.pth"
+)
+scaler_path = hf_hub_download(
+    repo_id="marco-pcg/Neural-Network-Types-models",
+    filename="energy_scaler.pkl"
+)
+meta_path = hf_hub_download(
+    repo_id="marco-pcg/Neural-Network-Types-models",
+    filename="energy_metadata.json"
+)
 
 # ---- Architecture (must match training) ----
 class EnergyLSTM(nn.Module):
@@ -36,10 +50,10 @@ def _load():
 
     _device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    with open(MODEL_DIR / "energy_metadata.json") as f:
+    with open(meta_path) as f:
         _meta = json.load(f)
 
-    _scaler = joblib.load(MODEL_DIR / "energy_scaler.pkl")
+    _scaler = joblib.load(scaler_path)
 
     _model = EnergyLSTM(
         input_size=_meta["input_size"],
@@ -47,7 +61,7 @@ def _load():
         num_layers=_meta["num_layers"],
     ).to(_device)
     _model.load_state_dict(
-        torch.load(MODEL_DIR / "energy_lstm.pth", map_location=_device)
+        torch.load(model_path, map_location=_device)
     )
     _model.eval()
 
