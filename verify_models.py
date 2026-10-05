@@ -5,7 +5,7 @@ from pathlib import Path
 import joblib
 import torch
 
-MODEL_DIR = Path("models")
+MODEL_DIR = Path("train/models")
 
 REQUIRED = {
     "cnn":         ["traffic_sign_cnn.pth", "class_names.json"],
