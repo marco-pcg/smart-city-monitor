@@ -259,6 +259,7 @@ Neural-Network-Types/
 └── README.md
 ```
 🛠️ Tech Stack
+```
 Layer	Tools
 Deep Learning	PyTorch, PyTorch Geometric, Sentence-Transformers
 Classical ML	scikit-learn, joblib
@@ -268,13 +269,17 @@ Demo	Gradio
 Deployment	Docker, Docker Compose, Hugging Face Spaces
 CI/CD	GitHub Actions, Codecov, GHCR
 Quality	pytest, ruff, black
+```
 🔄 CI/CD Pipeline
+```
 Trigger	Workflow	Action
 Push to main / develop	test.yml	Run pytest on Python 3.11 + 3.12
 Push to main / develop	lint.yml	Run ruff + black --check
 Push to main	sync-to-hf.yml	Mirror code to Hugging Face Spaces
 Push tag v*.*.*	docker.yml	Build + push Docker image to GHCR
 Publish a release	release.yml	Attach models-vX.Y.Z.zip
+```
+
 Model Storage Strategy
 
 Model weights are large and should not live in the Space repository. This project uses:
