@@ -9,7 +9,6 @@ from PIL import Image
 
 MODEL_DIR = Path("models")
 
-# ---- Architecture (must match training) ----
 class TrafficSignCNN(nn.Module):
     def __init__(self, num_classes=3):
         super().__init__()
@@ -29,7 +28,6 @@ class TrafficSignCNN(nn.Module):
         return self.fc_layers(self.conv_layers(x))
 
 
-# ---- Lazy-loaded singleton ----
 _model = None
 _class_names = None
 _device = None
@@ -60,7 +58,6 @@ def _load():
 
 @torch.no_grad()
 def predict(image_path: str, top_k: int = 3) -> dict:
-    """Classify a traffic sign image. Returns labels + confidences."""
     _load()
 
     img = Image.open(image_path).convert("RGB")

@@ -61,7 +61,7 @@ def predict_nodes(node_features: list[list[float]],
     ei = torch.tensor(edge_index, dtype=torch.long).to(_device)
 
     log_probs = _model(x, ei)
-    probs = torch.exp(log_probs)          # softmax -> probabilities
+    probs = torch.exp(log_probs)
     preds = probs.argmax(dim=1)
 
     results = []
@@ -78,7 +78,6 @@ def predict_nodes(node_features: list[list[float]],
 
 
 if __name__ == "__main__":
-    # Example graph: 4 users, 2 features each
     x = [[1.0, 0.5], [0.5, 1.0], [0.1, 0.1], [5.0, 5.0]]
     ei = [[0, 1, 2, 3], [1, 2, 3, 0]]
     print(predict_nodes(x, ei))

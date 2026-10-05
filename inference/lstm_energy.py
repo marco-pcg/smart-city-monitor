@@ -24,7 +24,6 @@ meta_path = hf_hub_download(
     filename="energy_metadata.json"
 )
 
-# ---- Architecture (must match training) ----
 class EnergyLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers):
         super().__init__()
@@ -36,7 +35,6 @@ class EnergyLSTM(nn.Module):
         return self.fc(lstm_out[:, -1, :])
 
 
-# ---- Lazy-loaded singleton ----
 _model = None
 _scaler = None
 _meta = None
@@ -93,6 +91,5 @@ def forecast(last_n_days: list[float]) -> dict:
 
 
 if __name__ == "__main__":
-    # Replace with real 30-day history
     sample = [1200 + 20 * (i % 7) for i in range(30)]
     print(forecast(sample))

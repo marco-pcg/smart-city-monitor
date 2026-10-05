@@ -1,4 +1,3 @@
-"""Module 02 — LSTM energy forecasting (corrected)."""
 import json
 
 import joblib
@@ -21,12 +20,10 @@ class EnergyLSTM(nn.Module):
         return self.fc(out[:, -1, :])
 
 
-# ---- Data ----
 df = pd.read_csv("data/PJMW_hourly.csv", nrows=10000)
 df = df.sort_values("Datetime").reset_index(drop=True)
 raw = df["PJMW_MW"].values.astype(np.float32).reshape(-1, 1)
 
-# Split first, then fit scaler on train only (avoids data leakage)
 split = int(len(raw) * 0.8)
 train_raw, test_raw = raw[:split], raw[split:]
 
@@ -35,7 +32,6 @@ train_scaled = scaler.fit_transform(train_raw).flatten()
 test_scaled = scaler.transform(test_raw).flatten()
 
 
-# ---- Sequence creation ----
 def create_sequences(data, seq_length=30):
     xs, ys = [], []
     for i in range(len(data) - seq_length):
@@ -48,8 +44,8 @@ SEQ_LEN = 30
 X_train, y_train = create_sequences(train_scaled, SEQ_LEN)
 X_test, y_test = create_sequences(test_scaled, SEQ_LEN)
 
-X_train = torch.tensor(X_train, dtype=torch.float32).unsqueeze(-1)   # (N, 30, 1)
-y_train = torch.tensor(y_train, dtype=torch.float32).unsqueeze(-1)   # (N, 1)
+X_train = torch.tensor(X_train, dtype=torch.float32).unsqueeze(-1)
+y_train = torch.tensor(y_train, dtype=torch.float32).unsqueeze(-1)
 X_test  = torch.tensor(X_test,  dtype=torch.float32).unsqueeze(-1)
 y_test  = torch.tensor(y_test,  dtype=torch.float32).unsqueeze(-1)
 

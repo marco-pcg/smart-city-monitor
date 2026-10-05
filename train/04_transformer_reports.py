@@ -1,13 +1,10 @@
-# 04_transformer_reports.py
 from sentence_transformers import SentenceTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-# 1. Load a Pretrained Sentence Transformer (as seen in your original image!)
 encoder = SentenceTransformer('all-MiniLM-L6-v2')
 
-# 2. Simulated Citizen Reports
 reports = [
     "There is a massive pothole on Main Street.",
     "The trash hasn't been collected in two weeks.",
@@ -16,19 +13,17 @@ reports = [
     "Illegal dumping in the park behind the school.",
     "I saw a suspicious person looking into windows."
 ]
+
 # 0 = Roads, 1 = Sanitation, 2 = Police
 labels = [0, 1, 2, 0, 1, 2]
 
-# 3. Encode all reports into embeddings
 embeddings = encoder.encode(reports)
 print(f"Embedding shape: {embeddings.shape}") # (6, 384)
 
-# 4. Train a simple classifier on top of the embeddings
 X_train, X_test, y_train, y_test = train_test_split(embeddings, labels, test_size=0.3)
 classifier = LogisticRegression()
 classifier.fit(X_train, y_train)
 
-# 5. Test with a new report
 new_report = ["The garbage truck missed my street again."]
 new_embedding = encoder.encode(new_report)
 prediction = classifier.predict(new_embedding)
@@ -38,8 +33,6 @@ departments = {0: "Roads", 1: "Sanitation", 2: "Police"}
 print(f"New report: '{new_report[0]}'")
 print(f"Routed to: {departments[prediction[0]]}")
 
-# Save
-# 04_transformer_reports.py (additions at the end)
 import json, joblib
 joblib.dump(classifier, "models/04/report_classifier.pkl")
 

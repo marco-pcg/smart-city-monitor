@@ -23,7 +23,6 @@ def _load():
         _config = json.load(f)
 
     with open(MODEL_DIR / "label_map.json") as f:
-        # keys become strings after JSON round-trip
         _label_map = {int(k): v for k, v in json.load(f).items()}
 
     _encoder = SentenceTransformer(_config["model_name"])
@@ -31,7 +30,6 @@ def _load():
 
 
 def route(text: str) -> dict:
-    """Route a citizen report to the correct department."""
     _load()
 
     emb = _encoder.encode([text])
@@ -49,7 +47,6 @@ def route(text: str) -> dict:
 
 
 def route_batch(texts: list[str]) -> list[dict]:
-    """Batch route multiple reports — much faster than looping."""
     _load()
 
     embs = _encoder.encode(texts)

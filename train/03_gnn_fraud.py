@@ -1,10 +1,8 @@
-# 03_gnn_fraud.py
 import torch
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from torch_geometric.data import Data
 
-# 1. Define a Graph Convolutional Network (GCN)
 class FraudGCN(torch.nn.Module):
     def __init__(self, num_node_features, hidden_channels):
         super().__init__()
@@ -18,22 +16,14 @@ class FraudGCN(torch.nn.Module):
         x = self.conv2(x, edge_index)
         return F.log_softmax(x, dim=1)
 
-# 2. Simulated Graph Data
-# Nodes = Users (features: account_age, avg_transaction)
-# Edges = Transactions between users
-# Labels = 0 (Legit) or 1 (Fraud)
-
-# Example: 4 users, 2 features per user
 x = torch.tensor([[1.0, 0.5], [0.5, 1.0], [0.1, 0.1], [5.0, 5.0]], dtype=torch.float)
-# Edges: User 0 -> 1, User 1 -> 2, User 2 -> 3, User 3 -> 0
 edge_index = torch.tensor([[0, 1, 2, 3],
                             [1, 2, 3, 0]], dtype=torch.long)
-# Labels: User 3 is a fraudster
+
 y = torch.tensor([0, 0, 0, 1], dtype=torch.long)
 
 data = Data(x=x, edge_index=edge_index, y=y)
 
-# 3. Train
 model = FraudGCN(num_node_features=2, hidden_channels=16)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
