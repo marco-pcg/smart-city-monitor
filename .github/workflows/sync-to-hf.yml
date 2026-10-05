@@ -6,7 +6,7 @@ on:
     paths:
       - "app.py"
       - "inference/**"
-      - "models/**"
+      - "train/models/**"
       - "requirements.txt"
       - "README.hf.md"
   workflow_dispatch:
@@ -26,14 +26,14 @@ jobs:
           cp app.py hf_space/
           cp requirements.txt hf_space/
           cp -r inference hf_space/
-          cp -r models hf_space/
+          cp -r train/models hf_space/
           cp README.hf.md hf_space/README.md
 
       - name: Push to Hugging Face
         uses: huggingface/hub-sync@main
         with:
           github_repo_id: ${{ github.repository }}
-          huggingface_repo_id: <your-hf-username>/smart-city-monitor
+          huggingface_repo_id: marco-pcg/Neural-Network-Types
           hf_token: ${{ secrets.HF_TOKEN }}
           repo_type: space
           space_sdk: gradio

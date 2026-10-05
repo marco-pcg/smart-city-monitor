@@ -16,7 +16,7 @@ jobs:
       - name: Zip model artifacts
         run: |
           cd models
-          zip -r ../models-${{ github.ref_name }}.zip . -x "*.DS_Store"
+          zip -r ./train/models-${{ github.ref_name }}.zip . -x "*.DS_Store"
 
       - name: Upload to release
         uses: softprops/action-gh-release@v2
